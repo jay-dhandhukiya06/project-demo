@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                135deg,
+                #667eea,
+                #764ba2,
+                #6a11cb
+            );
+        }
+
+        /* Background circles */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        body::before {
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.15);
+            top: 8%;
+            left: 12%;
+        }
+
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.12);
+            bottom: 5%;
+            right: 10%;
+        }
+
+        /* Login Box */
+        .login-container {
+            position: relative;
+            width: 380px;
+            padding: 40px;
+
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+
+            z-index: 1;
+        }
+
+        /* Heading */
+        .login-container h2 {
+            text-align: center;
+            color: white;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        /* Input group */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 10px;
+
+            outline: none;
+            color: white;
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .input-box input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .input-box input:focus {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Password visibility button */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 19px;
+
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .toggle-password:hover {
+            color: white;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 5px 0 25px;
+            font-size: 13px;
+        }
+
+        .remember {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .remember input {
+            accent-color: #764ba2;
+        }
+
+        .forgot {
+            color: white;
+            text-decoration: none;
+        }
+
+        .forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* Login button */
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: white;
+            color: #6a11cb;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin: 25px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Sign up */
+        .signup {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .signup a {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+        @media (max-width: 450px) {
+            .login-container {
+                width: 90%;
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Login to continue to your account</p>
+
+        <form>
+
+            <!-- Username -->
+            <div class="input-group">
+                <label>Username</label>
+
+                <div class="input-box">
+                    <input
+                        type="text"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+                <label>Password</label>
+
+                <div class="input-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword()"
+                        id="toggleBtn"
+                    >
+                        👁
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Remember & Forgot -->
+            <div class="options">
+
+                <label class="remember">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+
+                <a href="#" class="forgot">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <!-- Login -->
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+            OR
+        </div>
+
+        <!-- Sign Up -->
+        <div class="signup">
+            Don't have an account?
+            <a href="#">Create Account</a>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password = document.getElementById("password");
+            const toggleBtn = document.getElementById("toggleBtn");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                toggleBtn.textContent = "🙈";
+
+            } else {
+
+                password.type = "password";
+                toggleBtn.textContent = "👁";
+
+            }
+        }
+
+    </script>
+
+</body>
+</html> 
